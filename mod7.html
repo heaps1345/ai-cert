@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 7 Homework — AI Applications in Cybersecurity</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Outfit:wght@400;500;600;700&display=swap');
+
+  :root {
+    --bg: #f8f9fc;
+    --surface: #ffffff;
+    --border: #e2e5ed;
+    --dark: #0f1623;
+    --accent: #1a56db;
+    --accent2: #057a55;
+    --accent3: #c81e1e;
+    --accent4: #7e3af2;
+    --text: #1a202c;
+    --muted: #6b7280;
+    --card-hover: #f3f4f8;
+    --success: #057a55;
+    --fail: #c81e1e;
+    --success-bg: #f0fdf4;
+    --fail-bg: #fef2f2;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  .container { max-width: 800px; margin: 0 auto; }
+
+  .header {
+    background: var(--dark);
+    border-radius: 12px;
+    padding: 2rem 2rem 1.8rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 300px; height: 100%;
+    background: linear-gradient(135deg, rgba(26,86,219,0.15), rgba(126,58,242,0.1));
+    pointer-events: none;
+  }
+
+  .module-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    color: #60a5fa;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+    display: block;
+  }
+
+  h1 { font-size: 1.9rem; font-weight: 700; color: #fff; margin-bottom: 0.4rem; }
+  .subtitle { color: #9ca3af; font-size: 0.92rem; }
+
+  .score-row {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .score-pill {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .score-val {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #60a5fa;
+  }
+
+  .score-of { color: #6b7280; font-size: 0.82rem; }
+
+  .progress-track {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    min-width: 100px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #1a56db, #7e3af2);
+    border-radius: 4px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  .pct-val {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: #9ca3af;
+    min-width: 36px;
+  }
+
+  .section { margin-bottom: 1.8rem; }
+
+  .section-title {
+    font-size: 0.72rem;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .section-title::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.15s;
+  }
+
+  .card:hover { border-color: #c7d2fe; }
+
+  .q-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.6rem;
+    display: block;
+  }
+
+  .q-text { font-size: 0.97rem; font-weight: 500; margin-bottom: 1.1rem; line-height: 1.55; color: var(--text); }
+
+  .options { display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .option {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 0.75rem 0.9rem;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    width: 100%;
+    transition: all 0.15s;
+    line-height: 1.4;
+  }
+
+  .option:hover:not(:disabled) {
+    border-color: var(--accent);
+    background: #eff6ff;
+  }
+
+  .option.correct { border-color: var(--success); background: var(--success-bg); color: var(--success); }
+  .option.wrong { border-color: var(--fail); background: var(--fail-bg); color: var(--fail); }
+  .option.reveal-correct { border-color: var(--success); background: var(--success-bg); color: var(--success); opacity: 0.6; }
+
+  .opt-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    width: 20px;
+    height: 20px;
+    background: var(--border);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--muted);
+  }
+
+  .feedback {
+    margin-top: 0.8rem;
+    padding: 0.75rem 1rem;
+    border-radius: 7px;
+    font-size: 0.86rem;
+    line-height: 1.5;
+    display: none;
+  }
+
+  .feedback.show { display: block; }
+  .feedback.fb-ok { background: var(--success-bg); color: #065f46; border-left: 3px solid var(--success); }
+  .feedback.fb-no { background: var(--fail-bg); color: #991b1b; border-left: 3px solid var(--fail); }
+
+  /* Scenario */
+  .scenario-box {
+    background: #faf5ff;
+    border: 1px solid #ddd6fe;
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #4c1d95;
+  }
+
+  .scenario-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent4);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    display: block;
+  }
+
+  /* Sort exercise */
+  .sort-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .sort-item {
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    padding: 0.7rem 1rem;
+    font-size: 0.88rem;
+    cursor: grab;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    transition: all 0.15s;
+    color: var(--text);
+  }
+
+  .sort-item:hover { border-color: var(--accent4); background: #faf5ff; }
+  .sort-item.dragging { opacity: 0.35; }
+  .sort-item.drag-over-top { border-top: 3px solid var(--accent4); }
+
+  .drag-handle {
+    color: var(--muted);
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .sort-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    width: 18px;
+    flex-shrink: 0;
+  }
+
+  .sort-item.correct-pos { border-color: var(--success); background: var(--success-bg); }
+  .sort-item.wrong-pos { border-color: var(--fail); background: var(--fail-bg); }
+
+  /* True/False */
+  .tf-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--border);
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .tf-row:last-child { border-bottom: none; }
+
+  .tf-statement { font-size: 0.9rem; flex: 1; line-height: 1.5; min-width: 200px; }
+
+  .tf-btns { display: flex; gap: 0.4rem; flex-shrink: 0; }
+
+  .tf-btn {
+    padding: 0.35rem 0.9rem;
+    border-radius: 5px;
+    border: 1.5px solid var(--border);
+    cursor: pointer;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    background: var(--bg);
+    color: var(--muted);
+    transition: all 0.15s;
+  }
+
+  .tf-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+  .tf-btn.sel-true.correct-tf { border-color: var(--success); background: var(--success-bg); color: var(--success); }
+  .tf-btn.sel-false.correct-tf { border-color: var(--success); background: var(--success-bg); color: var(--success); }
+  .tf-btn.wrong-tf { border-color: var(--fail); background: var(--fail-bg); color: var(--fail); }
+
+  .check-btn {
+    background: transparent;
+    border: 1.5px solid var(--accent);
+    color: var(--accent);
+    padding: 0.5rem 1.2rem;
+    border-radius: 7px;
+    cursor: pointer;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    transition: all 0.2s;
+    margin-top: 0.8rem;
+  }
+
+  .check-btn:hover { background: #eff6ff; }
+  .check-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  .submit-all {
+    display: block;
+    width: 100%;
+    background: var(--dark);
+    color: #fff;
+    border: none;
+    padding: 1rem;
+    border-radius: 9px;
+    cursor: pointer;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    transition: all 0.2s;
+    margin-top: 1.5rem;
+  }
+
+  .submit-all:hover { background: #1e293b; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+
+  .final-score {
+    background: var(--dark);
+    border-radius: 12px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    display: none;
+    margin-top: 1.5rem;
+    color: #fff;
+  }
+
+  .final-score.show { display: block; }
+
+  .big-pct {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 4rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, #60a5fa, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .final-msg { color: #9ca3af; font-size: 0.95rem; margin-bottom: 1.5rem; }
+
+  .reset-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #9ca3af;
+    padding: 0.6rem 1.5rem;
+    border-radius: 7px;
+    cursor: pointer;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    transition: all 0.2s;
+  }
+
+  .reset-btn:hover { border-color: rgba(255,255,255,0.3); color: #fff; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <span class="module-tag">AI+ Security Level 1 · Module 7</span>
+    <h1>AI Applications in Cybersecurity</h1>
+    <p class="subtitle">Scenarios, true/false, and applied questions — test your understanding</p>
+    <div class="score-row">
+      <div class="score-pill">
+        <span class="score-val" id="scoreVal">0</span>
+        <span class="score-of">/ 16 pts</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="pFill"></div></div>
+      <span class="pct-val" id="pctVal">0%</span>
+    </div>
+  </div>
+
+  <!-- PART 1: MCQ -->
+  <div class="section">
+    <div class="section-title">Part 1 — Knowledge Check</div>
+
+    <div class="card">
+      <span class="q-tag">01 / Multiple Choice</span>
+      <div class="q-text">A malware detection model was trained on 2 million labelled files — half benign, half malicious. It classifies new files based on what it learned. What type of ML is this and what is its key limitation?</div>
+      <div class="options" id="q1">
+        <button class="option" onclick="mcq('q1','A','B')"><span class="opt-badge">A</span>Unsupervised learning — it cannot handle large datasets</button>
+        <button class="option" onclick="mcq('q1','B','B')"><span class="opt-badge">B</span>Supervised learning — it will struggle with novel malware families it was not trained on</button>
+        <button class="option" onclick="mcq('q1','C','B')"><span class="opt-badge">C</span>Reinforcement learning — it needs a reward signal to improve</button>
+        <button class="option" onclick="mcq('q1','D','B')"><span class="opt-badge">D</span>Supervised learning — it only works on Windows systems</button>
+      </div>
+      <div class="feedback" id="q1-fb"></div>
+    </div>
+
+    <div class="card">
+      <span class="q-tag">02 / Multiple Choice</span>
+      <div class="q-text">An ML model for phishing detection scores 99% accuracy on the test dataset. Your security team is impressed. What critical question should you ask before trusting it in production?</div>
+      <div class="options" id="q2">
+        <button class="option" onclick="mcq('q2','A','C')"><span class="opt-badge">A</span>What colour is the dashboard?</button>
+        <button class="option" onclick="mcq('q2','B','C')"><span class="opt-badge">B</span>How fast does it run on our hardware?</button>
+        <button class="option" onclick="mcq('q2','C','C')"><span class="opt-badge">C</span>What is the precision and recall — how many legitimate emails does it wrongly flag, and how many phishing emails does it miss?</button>
+        <button class="option" onclick="mcq('q2','D','C')"><span class="opt-badge">D</span>Does it have a mobile app?</button>
+      </div>
+      <div class="feedback" id="q2-fb"></div>
+    </div>
+
+    <div class="card">
+      <span class="q-tag">03 / Multiple Choice</span>
+      <div class="q-text">Your UEBA system flags an alert: a user account accessed 500 files on the file server between 2am and 3am — behaviour never seen before for that account. What is the FIRST thing you should do?</div>
+      <div class="options" id="q3">
+        <button class="option" onclick="mcq('q3','A','B')"><span class="opt-badge">A</span>Immediately disable the account and send an email to the whole company</button>
+        <button class="option" onclick="mcq('q3','B','B')"><span class="opt-badge">B</span>Investigate the context — is the user travelling, in a different timezone, did they have a legitimate late-night project?</button>
+        <button class="option" onclick="mcq('q3','C','B')"><span class="opt-badge">C</span>Ignore it — anomaly detection has too many false positives</button>
+        <button class="option" onclick="mcq('q3','D','B')"><span class="opt-badge">D</span>Reset the user's password without telling them</button>
+      </div>
+      <div class="feedback" id="q3-fb"></div>
+    </div>
+
+    <div class="card">
+      <span class="q-tag">04 / Multiple Choice</span>
+      <div class="q-text">Polymorphic malware changes its code every time it replicates to avoid signature detection. Which detection approach is most effective against it?</div>
+      <div class="options" id="q4">
+        <button class="option" onclick="mcq('q4','A','C')"><span class="opt-badge">A</span>Signature-based detection — match against the known hash</button>
+        <button class="option" onclick="mcq('q4','B','C')"><span class="opt-badge">B</span>Daily antivirus signature updates</button>
+        <button class="option" onclick="mcq('q4','C','C')"><span class="opt-badge">C</span>Behaviour-based ML detection — the code changes but the malicious behaviour stays the same</button>
+        <button class="option" onclick="mcq('q4','D','C')"><span class="opt-badge">D</span>Blocking all executable files at the email gateway</button>
+      </div>
+      <div class="feedback" id="q4-fb"></div>
+    </div>
+  </div>
+
+  <!-- PART 2: True/False -->
+  <div class="section">
+    <div class="section-title">Part 2 — True or False</div>
+
+    <div class="card">
+      <span class="q-tag">05–10 / True or False</span>
+      <div class="q-text" style="margin-bottom:1rem;">Select True or False for each statement. You will get instant feedback when you submit.</div>
+
+      <div id="tf-area">
+        <div class="tf-row" data-answer="false" data-id="tf1">
+          <span class="tf-statement">AI completely replaces the need for human security analysts in a modern SOC.</span>
+          <div class="tf-btns">
+            <button class="tf-btn" onclick="tfSelect('tf1','true',this)">True</button>
+            <button class="tf-btn" onclick="tfSelect('tf1','false',this)">False</button>
+          </div>
+        </div>
+        <div class="tf-row" data-answer="true" data-id="tf2">
+          <span class="tf-statement">Unsupervised ML is particularly valuable for detecting zero-day attacks because it does not need labelled examples of the threat.</span>
+          <div class="tf-btns">
+            <button class="tf-btn" onclick="tfSelect('tf2','true',this)">True</button>
+            <button class="tf-btn" onclick="tfSelect('tf2','false',this)">False</button>
+          </div>
+        </div>
+        <div class="tf-row" data-answer="false" data-id="tf3">
+          <span class="tf-statement">A 99% accuracy score on a malware detection model guarantees it will perform well in production.</span>
+          <div class="tf-btns">
+            <button class="tf-btn" onclick="tfSelect('tf3','true',this)">True</button>
+            <button class="tf-btn" onclick="tfSelect('tf3','false',this)">False</button>
+          </div>
+        </div>
+        <div class="tf-row" data-answer="true" data-id="tf4">
+          <span class="tf-statement">Sandboxing allows you to safely observe what a suspicious file does when it executes, without risking your real environment.</span>
+          <div class="tf-btns">
+            <button class="tf-btn" onclick="tfSelect('tf4','true',this)">True</button>
+            <button class="tf-btn" onclick="tfSelect('tf4','false',this)">False</button>
+          </div>
+        </div>
+        <div class="tf-row" data-answer="false" data-id="tf5">
+          <span class="tf-statement">Static analysis of malware runs the file in a controlled environment to observe its behaviour.</span>
+          <div class="tf-btns">
+            <button class="tf-btn" onclick="tfSelect('tf5','true',this)">True</button>
+            <button class="tf-btn" onclick="tfSelect('tf5','false',this)">False</button>
+          </div>
+        </div>
+        <div class="tf-row" data-answer="true" data-id="tf6">
+          <span class="tf-statement">Behavioural biometrics can provide continuous authentication throughout a session, not just at login.</span>
+          <div class="tf-btns">
+            <button class="tf-btn" onclick="tfSelect('tf6','true',this)">True</button>
+            <button class="tf-btn" onclick="tfSelect('tf6','false',this)">False</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="check-btn" id="tfBtn" onclick="checkTF()">Submit True/False Answers</button>
+      <div class="feedback" id="tf-fb"></div>
+    </div>
+  </div>
+
+  <!-- PART 3: Scenarios -->
+  <div class="section">
+    <div class="section-title">Part 3 — Applied Scenarios</div>
+
+    <div class="card">
+      <span class="q-tag">11 / Scenario</span>
+      <div class="scenario-box">
+        <span class="scenario-tag">Scenario</span>
+        A financial institution's AI email security system automatically quarantines all emails it classifies as phishing. One Monday morning, it quarantines 847 emails — including a time-sensitive payment authorisation from a major client. The payment misses its deadline. Finance is furious.
+      </div>
+      <div class="q-text">What design principle was violated and what should the system have done differently?</div>
+      <div class="options" id="q11">
+        <button class="option" onclick="mcq('q11','A','C')"><span class="opt-badge">A</span>The AI model should have been switched off — it is causing more harm than good</button>
+        <button class="option" onclick="mcq('q11','B','C')"><span class="opt-badge">B</span>The finance team should check their quarantine folder every hour</button>
+        <button class="option" onclick="mcq('q11','C','C')"><span class="opt-badge">C</span>High-confidence threats can be auto-quarantined, but borderline cases should go to a human review queue — full automation without review is too risky for high-impact actions</button>
+        <button class="option" onclick="mcq('q11','D','C')"><span class="opt-badge">D</span>The AI should have forwarded all suspicious emails directly to IT rather than quarantining them</button>
+      </div>
+      <div class="feedback" id="q11-fb"></div>
+    </div>
+
+    <div class="card">
+      <span class="q-tag">12 / Scenario</span>
+      <div class="scenario-box">
+        <span class="scenario-tag">Scenario</span>
+        A penetration tester is asked to evaluate an organisation's defences. They use an AI-assisted pen testing tool that automatically discovers attack paths, identifies vulnerabilities, and generates a prioritised list of findings. The engagement takes half the time it would have manually.
+      </div>
+      <div class="q-text">What does the human penetration tester still contribute that the AI tool cannot?</div>
+      <div class="options" id="q12">
+        <button class="option" onclick="mcq('q12','A','B')"><span class="opt-badge">A</span>Nothing — the AI does everything better and faster</button>
+        <button class="option" onclick="mcq('q12','B','B')"><span class="opt-badge">B</span>Business context, creative lateral thinking, understanding real-world impact, communicating findings to non-technical stakeholders, and discovering novel chains the AI would not connect</button>
+        <button class="option" onclick="mcq('q12','C','B')"><span class="opt-badge">C</span>Typing the report and invoicing the client</button>
+        <button class="option" onclick="mcq('q12','D','B')"><span class="opt-badge">D</span>Running the AI tool and pressing the start button</button>
+      </div>
+      <div class="feedback" id="q12-fb"></div>
+    </div>
+
+    <div class="card">
+      <span class="q-tag">13 / Scenario</span>
+      <div class="scenario-box">
+        <span class="scenario-tag">Scenario</span>
+        An organisation's ML-based intrusion detection system was trained on six months of network traffic. The company then migrates 80% of their infrastructure to cloud, fundamentally changing their traffic patterns. Within a week the SOC is drowning in false positive alerts.
+      </div>
+      <div class="q-text">What is the root cause and what is the correct fix?</div>
+      <div class="options" id="q13">
+        <button class="option" onclick="mcq('q13','A','B')"><span class="opt-badge">A</span>Cloud infrastructure is inherently incompatible with ML-based detection</button>
+        <button class="option" onclick="mcq('q13','B','B')"><span class="opt-badge">B</span>The model's baseline was built on on-premise traffic patterns. Cloud traffic looks different so the model flags normal cloud activity as anomalous. The model needs retraining on the new environment.</button>
+        <button class="option" onclick="mcq('q13','C','B')"><span class="opt-badge">C</span>The cloud provider's network is sending malicious traffic</button>
+        <button class="option" onclick="mcq('q13','D','B')"><span class="opt-badge">D</span>The SOC team needs more staff to handle the extra alerts</button>
+      </div>
+      <div class="feedback" id="q13-fb"></div>
+    </div>
+  </div>
+
+  <button class="submit-all" onclick="submitAll()">Submit &amp; See Final Score</button>
+
+  <div class="final-score" id="finalScore">
+    <span class="big-pct" id="finalPct">0%</span>
+    <div class="final-msg" id="finalMsg"></div>
+    <button class="reset-btn" onclick="location.reload()">Reset &amp; Try Again</button>
+  </div>
+
+</div>
+
+<script>
+let pts = 0;
+let maxPts = 16;
+let answered = {};
+let tfSelections = {};
+
+function upd() {
+  document.getElementById('scoreVal').textContent = pts;
+  let p = Math.round((pts/maxPts)*100);
+  document.getElementById('pFill').style.width = p + '%';
+  document.getElementById('pctVal').textContent = p + '%';
+}
+
+function mcq(qid, chosen, correct) {
+  if (answered[qid]) return;
+  answered[qid] = true;
+  let btns = document.querySelectorAll('#'+qid+' .option');
+  let letters = ['A','B','C','D'];
+  btns.forEach((b,i) => {
+    b.disabled = true;
+    if (letters[i] === correct) b.classList.add(chosen===correct ? 'correct' : 'reveal-correct');
+    if (letters[i] === chosen && chosen !== correct) b.classList.add('wrong');
+  });
+  let fb = document.getElementById(qid+'-fb');
+  let msgs = {
+    'q1': {
+      c: '✓ Correct. Supervised learning needs labelled examples. Its weakness is novel threats — if it has never seen a malware family during training, it may miss it.',
+      w: '✗ This is supervised learning (labelled training data). Its core limitation is novel malware — anything outside the training distribution may evade it.'
+    },
+    'q2': {
+      c: '✓ Correct. Accuracy alone is misleading. Precision (false positive rate) and recall (miss rate) are the metrics that matter for a security classifier in production.',
+      w: '✗ 99% accuracy can hide terrible performance. A model that marks everything as benign has 99% accuracy on a dataset with 1% phishing. Precision and recall are the critical metrics.'
+    },
+    'q3': {
+      c: '✓ Correct. Context is everything in anomaly detection. Investigate before acting. Legitimate explanations (timezone, project, travel) must be ruled out before escalating.',
+      w: '✗ Context must come first. Is the user travelling? Different timezone? Late-night project? Rule out legitimate explanations before taking action. Acting immediately risks disrupting legitimate work.'
+    },
+    'q4': {
+      c: '✓ Correct. Polymorphic malware changes its signature but not its behaviour. Behaviour-based ML detects what it does, not what it looks like — making it effective against variants that have never been seen before.',
+      w: '✗ Signature detection fails because the signature changes every time. Behaviour-based ML detects what the malware does — and that behaviour stays consistent even when the code mutates.'
+    },
+    'q11': {
+      c: '✓ Correct. Tiered automation is the answer. High confidence = auto-quarantine. Medium confidence = human review queue with business priority context. Full automation without review thresholds is a production risk.',
+      w: '✗ The system needed tiered automation. Very high confidence phishing → auto-quarantine. Borderline cases → human review queue. A time-sensitive payment from a known client should never auto-quarantine without human review.'
+    },
+    'q12': {
+      c: '✓ Correct. AI makes good testing faster and broader. It does not replace the judgement, creativity, and communication skills of an experienced tester who understands business context and can find the unexpected.',
+      w: '✗ Human testers bring business context, creative thinking, novel attack chains, and the ability to communicate impact to non-technical stakeholders. AI handles speed and breadth — human expertise handles depth and insight.'
+    },
+    'q13': {
+      c: '✓ Correct. The model learned what "normal" looked like in an on-premise environment. Cloud traffic has different patterns — the model is comparing current activity to an outdated baseline. Retraining on cloud-native traffic fixes it.',
+      w: '✗ The baseline was built on on-premise traffic. Cloud migration changed what "normal" looks like. The model flags legitimate cloud activity as anomalous because it has never seen it before. Retraining is the fix.'
+    },
+  };
+  let m = msgs[qid];
+  if (chosen === correct) {
+    fb.className='feedback show fb-ok'; fb.textContent=m.c; pts++; upd();
+  } else {
+    fb.className='feedback show fb-no'; fb.textContent=m.w;
+  }
+}
+
+function tfSelect(id, val, btn) {
+  if (answered['tf']) return;
+  let row = btn.closest('.tf-row');
+  let btns = row.querySelectorAll('.tf-btn');
+  btns.forEach(b => b.classList.remove('sel-true','sel-false'));
+  btn.classList.add(val === 'true' ? 'sel-true' : 'sel-false');
+  tfSelections[id] = val;
+}
+
+function checkTF() {
+  if (answered['tf']) return;
+  answered['tf'] = true;
+  document.getElementById('tfBtn').disabled = true;
+  let correct = 0;
+  let total = 6;
+  let explanations = {
+    'tf1': { ans:'false', exp:'False — AI augments analysts, it does not replace them. Judgement, context, and communication remain human responsibilities.' },
+    'tf2': { ans:'true', exp:'True — unsupervised learning finds deviations from normal without needing labelled attack examples. This is why it catches unknown threats.' },
+    'tf3': { ans:'false', exp:'False — 99% accuracy can be misleading. What matters is precision (false positive rate) and recall (miss rate) in the context of the actual data distribution.' },
+    'tf4': { ans:'true', exp:'True — sandboxing is controlled execution in isolation. The malware runs and shows its behaviour without touching real systems.' },
+    'tf5': { ans:'false', exp:'False — that describes dynamic analysis. Static analysis examines the file without running it — code structure, imports, strings.' },
+    'tf6': { ans:'true', exp:'True — behavioural biometrics continuously monitors typing rhythm, mouse patterns etc. throughout the session, not just at login.' },
+  };
+  document.querySelectorAll('.tf-row').forEach(row => {
+    let id = row.dataset.id;
+    let correctAns = row.dataset.answer;
+    let selected = tfSelections[id] || '';
+    let btns = row.querySelectorAll('.tf-btn');
+    btns.forEach(b => {
+      b.disabled = true;
+      let bVal = b.textContent.toLowerCase().trim();
+      if (bVal === correctAns) b.classList.add(selected === correctAns ? 'correct-tf' : 'correct-tf');
+      if (bVal === selected && selected !== correctAns) b.classList.add('wrong-tf');
+    });
+    if (selected === correctAns) correct++;
+  });
+  pts += correct;
+  upd();
+  let fb = document.getElementById('tf-fb');
+  let details = Object.values(explanations).map(e => '• ' + e.exp).join('\n');
+  if (correct === total) {
+    fb.className='feedback show fb-ok';
+    fb.innerHTML = '✓ All 6 correct.<br><br>' + Object.values(explanations).map(e => '• '+e.exp).join('<br>');
+  } else {
+    fb.className='feedback show fb-no';
+    fb.innerHTML = correct+'/6 correct.<br><br>' + Object.values(explanations).map(e => '• '+e.exp).join('<br>');
+  }
+}
+
+function submitAll() {
+  let p = Math.round((pts/maxPts)*100);
+  let el = document.getElementById('finalScore');
+  el.classList.add('show');
+  document.getElementById('finalPct').textContent = p + '%';
+  let m = p >= 85 ? '⭐ Excellent — strong grasp of AI security applications.' :
+          p >= 70 ? '✓ Good understanding. Review the scenarios you found tricky.' :
+          p >= 50 ? '📖 Halfway there — revisit the anomaly detection and malware sections.' :
+                    '🔁 Go back through the Module 7 slides and try again.';
+  document.getElementById('finalMsg').textContent = m;
+  el.scrollIntoView({ behavior:'smooth', block:'center' });
+}
+</script>
+</body>
+</html>

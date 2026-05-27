@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 6 Homework — Python Fundamentals</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --border: #21262d;
+    --accent: #58a6ff;
+    --accent2: #3fb950;
+    --accent3: #f78166;
+    --accent4: #d2a8ff;
+    --text: #c9d1d9;
+    --muted: #6e7681;
+    --card: #0d1117;
+    --success: #3fb950;
+    --fail: #f85149;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  .container { max-width: 820px; margin: 0 auto; }
+
+  .header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .header-left {}
+
+  .module-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent2);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  h1 { font-size: 1.8rem; font-weight: 700; color: #fff; margin-bottom: 0.3rem; }
+  .subtitle { color: var(--muted); font-size: 0.9rem; }
+
+  .score-chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.8rem 1.2rem;
+    text-align: center;
+    min-width: 100px;
+  }
+
+  .score-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent2);
+    display: block;
+  }
+
+  .score-lbl { font-size: 0.72rem; color: var(--muted); }
+
+  .progress-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.6rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .progress-track { flex: 1; height: 3px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent2); border-radius: 3px; transition: width 0.4s ease; width: 0%; }
+  .pct-lbl { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--muted); min-width: 36px; }
+
+  .section { margin-bottom: 2rem; }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-left: 3px solid var(--accent);
+    padding-left: 0.7rem;
+    margin-bottom: 1rem;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .q-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+    display: block;
+  }
+
+  .q-text { font-size: 0.97rem; font-weight: 500; margin-bottom: 1.1rem; line-height: 1.55; }
+
+  /* Code block */
+  .code-block {
+    background: #010409;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.83rem;
+    line-height: 1.7;
+    overflow-x: auto;
+    color: #e6edf3;
+  }
+
+  .code-block .kw { color: #ff7b72; }
+  .code-block .fn { color: #d2a8ff; }
+  .code-block .str { color: #a5d6ff; }
+  .code-block .cm { color: #8b949e; font-style: italic; }
+  .code-block .num { color: #79c0ff; }
+  .code-block .var { color: #ffa657; }
+
+  .options { display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .option {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 0.75rem 0.9rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: left;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    width: 100%;
+    transition: all 0.15s;
+    line-height: 1.4;
+  }
+
+  .option:hover:not(:disabled) { border-color: var(--accent); background: rgba(88,166,255,0.04); }
+  .option.correct { border-color: var(--success); background: rgba(63,185,80,0.07); color: var(--success); }
+  .option.wrong { border-color: var(--fail); background: rgba(248,81,73,0.07); color: var(--fail); }
+  .option.reveal-correct { border-color: var(--success); background: rgba(63,185,80,0.04); color: var(--success); opacity: 0.65; }
+
+  .opt-l {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    width: 18px;
+    height: 18px;
+    background: var(--border);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .feedback {
+    margin-top: 0.7rem;
+    padding: 0.7rem 0.9rem;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    display: none;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .feedback.show { display: block; }
+  .feedback.fb-ok { background: rgba(63,185,80,0.07); color: var(--success); border-left: 3px solid var(--success); }
+  .feedback.fb-no { background: rgba(248,81,73,0.07); color: #ff8b81; border-left: 3px solid var(--fail); }
+
+  /* Output guess */
+  .output-box {
+    background: #010409;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  .output-input {
+    background: #010409;
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    color: var(--accent2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    padding: 0.3rem 0.6rem;
+    outline: none;
+    transition: all 0.2s;
+    width: 160px;
+  }
+
+  .output-input:focus { box-shadow: 0 0 0 2px rgba(88,166,255,0.15); }
+  .output-input.ok { border-color: var(--success); color: var(--success); }
+  .output-input.no { border-color: var(--fail); color: var(--fail); }
+
+  .check-btn {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 0.45rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    transition: all 0.2s;
+    margin-top: 0.6rem;
+  }
+
+  .check-btn:hover { background: rgba(88,166,255,0.07); }
+  .check-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  /* Debug challenge */
+  .bug-code {
+    background: #010409;
+    border: 1px solid rgba(248,81,73,0.3);
+    border-radius: 6px;
+    padding: 1rem 1.2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.83rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    color: #e6edf3;
+    position: relative;
+  }
+
+  .bug-label {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.8rem;
+    font-size: 0.65rem;
+    color: var(--fail);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .bug-line { color: var(--fail) !important; text-decoration: underline; text-decoration-color: rgba(248,81,73,0.5); }
+
+  /* Scenario */
+  .scenario-box {
+    background: rgba(210,168,255,0.05);
+    border: 1px solid rgba(210,168,255,0.15);
+    border-radius: 6px;
+    padding: 1rem 1.1rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #d2a8ff;
+  }
+
+  .scenario-lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent4);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    display: block;
+  }
+
+  .submit-all {
+    display: block;
+    width: 100%;
+    background: var(--accent2);
+    color: #000;
+    border: none;
+    padding: 0.9rem;
+    border-radius: 7px;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    transition: all 0.2s;
+    margin-top: 1.5rem;
+  }
+
+  .submit-all:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+  .final-score {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    display: none;
+    margin-top: 1.5rem;
+  }
+
+  .final-score.show { display: block; }
+
+  .big-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--accent2);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .final-msg { color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem; }
+
+  .reset-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.6rem 1.4rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    transition: all 0.2s;
+  }
+
+  .reset-btn:hover { border-color: var(--muted); color: var(--text); }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-left">
+      <span class="module-tag">// module_6_homework.py</span>
+      <h1>Python Fundamentals</h1>
+      <p class="subtitle">Consolidation exercises — read the code, spot the bugs, solve the scenarios</p>
+    </div>
+    <div class="score-chip">
+      <span class="score-num" id="scoreNum">0</span>
+      <span class="score-lbl">/ 13 pts</span>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-fill" id="pFill"></div></div>
+    <span class="pct-lbl" id="pctLbl">0%</span>
+  </div>
+
+  <!-- PART 1: Code reading -->
+  <div class="section">
+    <div class="section-label">Part 1 — Read the Code</div>
+
+    <div class="card">
+      <span class="q-num">01 / What does this code do?</span>
+      <div class="q-text">Read the code below. What will it print to the screen?</div>
+      <div class="code-block">
+<span class="var">ips</span> = [<span class="str">"192.168.1.1"</span>, <span class="str">"10.0.0.5"</span>, <span class="str">"172.16.0.1"</span>]
+<span class="var">blocklist</span> = [<span class="str">"10.0.0.5"</span>, <span class="str">"172.16.0.1"</span>]
+
+<span class="kw">for</span> <span class="var">ip</span> <span class="kw">in</span> <span class="var">ips</span>:
+    <span class="kw">if</span> <span class="var">ip</span> <span class="kw">in</span> <span class="var">blocklist</span>:
+        <span class="fn">print</span>(<span class="var">ip</span> + <span class="str">" — BLOCKED"</span>)
+    <span class="kw">else</span>:
+        <span class="fn">print</span>(<span class="var">ip</span> + <span class="str">" — ALLOWED"</span>)</div>
+      <div class="options" id="q1">
+        <button class="option" onclick="mcq('q1','A','B')"><span class="opt-l">A</span>Prints BLOCKED for all three IPs</button>
+        <button class="option" onclick="mcq('q1','B','B')"><span class="opt-l">B</span>Prints 192.168.1.1 ALLOWED, 10.0.0.5 BLOCKED, 172.16.0.1 BLOCKED</button>
+        <button class="option" onclick="mcq('q1','C','B')"><span class="opt-l">C</span>Prints nothing — the code has an error</button>
+        <button class="option" onclick="mcq('q1','D','B')"><span class="opt-l">D</span>Prints ALLOWED for all three IPs</button>
+      </div>
+      <div class="feedback" id="q1-fb"></div>
+    </div>
+
+    <div class="card">
+      <span class="q-num">02 / What type is this?</span>
+      <div class="q-text">A colleague writes this security script. What Python concept is <code style="color:var(--accent4);font-family:'JetBrains Mono',monospace">check_ip</code>?</div>
+      <div class="code-block">
+<span class="kw">def</span> <span class="fn">check_ip</span>(<span class="var">ip_address</span>, <span class="var">threat_feed</span>):
+    <span class="kw">if</span> <span class="var">ip_address</span> <span class="kw">in</span> <span class="var">threat_feed</span>:
+        <span class="kw">return</span> <span class="str">"MALICIOUS"</span>
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="str">"CLEAN"</span>
+
+<span class="var">result</span> = <span class="fn">check_ip</span>(<span class="str">"10.0.0.5"</span>, <span class="var">blocklist</span>)
+<span class="fn">print</span>(<span class="var">result</span>)</div>
+      <div class="options" id="q2">
+        <button class="option" onclick="mcq('q2','A','C')"><span class="opt-l">A</span>A variable</button>
+        <button class="option" onclick="mcq('q2','B','C')"><span class="opt-l">B</span>A loop</button>
+        <button class="option" onclick="mcq('q2','C','C')"><span class="opt-l">C</span>A function</button>
+        <button class="option" onclick="mcq('q2','D','C')"><span class="opt-l">D</span>A library</button>
+      </div>
+      <div class="feedback" id="q2-fb"></div>
+    </div>
+
+    <div class="card">
+      <span class="q-num">03 / Predict the output</span>
+      <div class="q-text">What does this while loop print? Enter your answer — one number per line is fine.</div>
+      <div class="code-block">
+<span class="var">count</span> = <span class="num">1</span>
+<span class="kw">while</span> <span class="var">count</span> &lt;= <span class="num">3</span>:
+    <span class="fn">print</span>(<span class="str">"Alert #"</span> + <span class="fn">str</span>(<span class="var">count</span>))
+    <span class="var">count</span> += <span class="num">1</span></div>
+      <div class="options" id="q3">
+        <button class="option" onclick="mcq('q3','A','B')"><span class="opt-l">A</span>Prints "Alert #1" once then stops</button>
+        <button class="option" onclick="mcq('q3','B','B')"><span class="opt-l">B</span>Prints "Alert #1", "Alert #2", "Alert #3"</button>
+        <button class="option" onclick="mcq('q3','C','B')"><span class="opt-l">C</span>Prints forever — this is an infinite loop</button>
+        <button class="option" onclick="mcq('q3','D','B')"><span class="opt-l">D</span>Prints nothing — count never reaches 3</button>
+      </div>
+      <div class="feedback" id="q3-fb"></div>
+    </div>
+  </div>
+
+  <!-- PART 2: Spot the bug -->
+  <div class="section">
+    <div class="section-label">Part 2 — Spot the Bug</div>
+
+    <div class="card">
+      <span class="q-num">04 / Debug Challenge</span>
+      <div class="q-text">This script should check 500 IPs against a threat feed. But if one IP is unreachable it crashes and stops. Which fix makes it robust?</div>
+      <div class="bug-code">
+        <span class="bug-label">⚠ fragile</span>
+<span class="var">ips_to_check</span> = <span class="fn">load_ip_list</span>()
+
+<span class="kw">for</span> <span class="var">ip</span> <span class="kw">in</span> <span class="var">ips_to_check</span>:
+    <span class="var">result</span> = <span class="fn">query_threat_feed</span>(<span class="var">ip</span>)  <span class="cm bug-line"># crashes if connection fails</span>
+    <span class="fn">print</span>(<span class="var">ip</span>, <span class="var">result</span>)</div>
+      <div class="options" id="q4">
+        <button class="option" onclick="mcq('q4','A','C')"><span class="opt-l">A</span>Replace the for loop with a while loop</button>
+        <button class="option" onclick="mcq('q4','B','C')"><span class="opt-l">B</span>Check the IP list is not empty before running</button>
+        <button class="option" onclick="mcq('q4','C','C')"><span class="opt-l">C</span>Wrap the query in a try/except block so errors are logged and the loop continues</button>
+        <button class="option" onclick="mcq('q4','D','C')"><span class="opt-l">D</span>Add a comment explaining that it might crash</button>
+      </div>
+      <div class="feedback" id="q4-fb"></div>
+    </div>
+
+    <div class="card">
+      <span class="q-num">05 / Libraries</span>
+      <div class="q-text">A junior analyst writes this script to check if a URL is malicious using the VirusTotal API. It fails every time. What is missing?</div>
+      <div class="bug-code">
+        <span class="bug-label">⚠ broken</span>
+<span class="cm"># line 1 is missing something</span>
+
+<span class="var">response</span> = <span class="var">requests</span>.<span class="fn">get</span>(
+    <span class="str">"https://www.virustotal.com/api/v3/urls"</span>,
+    <span class="var">headers</span>={<span class="str">"x-apikey"</span>: <span class="str">"YOUR_KEY"</span>}
+)
+<span class="fn">print</span>(<span class="var">response</span>.<span class="var">status_code</span>)</div>
+      <div class="options" id="q5">
+        <button class="option" onclick="mcq('q5','A','B')"><span class="opt-l">A</span>The API key is wrong</button>
+        <button class="option" onclick="mcq('q5','B','B')"><span class="opt-l">B</span>The requests library has not been imported — needs <code style="font-family:'JetBrains Mono',monospace">import requests</code> at the top</button>
+        <button class="option" onclick="mcq('q5','C','B')"><span class="opt-l">C</span>The URL is formatted incorrectly</button>
+        <button class="option" onclick="mcq('q5','D','B')"><span class="opt-l">D</span>You cannot use Python to call APIs</button>
+      </div>
+      <div class="feedback" id="q5-fb"></div>
+    </div>
+  </div>
+
+  <!-- PART 3: Fill the blank -->
+  <div class="section">
+    <div class="section-label">Part 3 — Complete the Code</div>
+
+    <div class="card">
+      <span class="q-num">06 / Fill in the Blanks</span>
+      <div class="q-text">Complete the sentences about Python concepts.</div>
+
+      <div style="margin-bottom:0.8rem;font-size:0.9rem;line-height:2.2;">
+        <div style="margin-bottom:0.5rem;">A <input class="output-input" id="b1" placeholder="..."> is a labelled box that stores a value.</div>
+        <div style="margin-bottom:0.5rem;">A <input class="output-input" id="b2" placeholder="..."> is a toolbox of pre-written code you import into your script.</div>
+        <div style="margin-bottom:0.5rem;">The <code style="color:var(--accent4);font-family:'JetBrains Mono',monospace">def</code> keyword is used to define a <input class="output-input" id="b3" placeholder="...">.</div>
+        <div style="margin-bottom:0.5rem;">A <code style="color:var(--accent4);font-family:'JetBrains Mono',monospace">try/except</code> block handles <input class="output-input" id="b4" placeholder="..."> so the script does not crash.</div>
+      </div>
+      <button class="check-btn" id="blanksBtn" onclick="checkBlanks()">Check Answers</button>
+      <div class="feedback" id="blanks-fb"></div>
+    </div>
+  </div>
+
+  <!-- PART 4: Scenario -->
+  <div class="section">
+    <div class="section-label">Part 4 — Applied Scenarios</div>
+
+    <div class="card">
+      <span class="q-num">07 / Scenario</span>
+      <div class="scenario-box">
+        <span class="scenario-lbl">Scenario</span>
+        You are a security analyst. Your vulnerability scanner exports a CSV file with 4,000 findings across 300 servers. Your manager needs to know the 10 most critical servers to patch first — by end of day. Manually sorting in Excel will take you 2 hours.
+      </div>
+      <div class="q-text">Which Python approach solves this most effectively?</div>
+      <div class="options" id="q7">
+        <button class="option" onclick="mcq('q7','A','B')"><span class="opt-l">A</span>Write a for loop that reads each finding one at a time and prints it</button>
+        <button class="option" onclick="mcq('q7','B','B')"><span class="opt-l">B</span>Use Pandas to load the CSV, filter by Critical severity, sort by asset value, and output the top 10 — five lines of code, runs in seconds</button>
+        <button class="option" onclick="mcq('q7','C','B')"><span class="opt-l">C</span>Use Matplotlib to draw a chart of all 4,000 findings</button>
+        <button class="option" onclick="mcq('q7','D','B')"><span class="opt-l">D</span>Python cannot read CSV files — this still needs Excel</button>
+      </div>
+      <div class="feedback" id="q7-fb"></div>
+    </div>
+
+    <div class="card">
+      <span class="q-num">08 / Scenario</span>
+      <div class="scenario-box">
+        <span class="scenario-lbl">Scenario</span>
+        You build a Python script that automatically blocks any IP flagged as malicious by an AI tool. It runs without human review. At 9am on Monday it blocks an IP — which turns out to be your company's payment processor. The e-commerce site goes down for 45 minutes.
+      </div>
+      <div class="q-text">What was the key design flaw and how should it have been built?</div>
+      <div class="options" id="q8">
+        <button class="option" onclick="mcq('q8','A','C')"><span class="opt-l">A</span>The script was written in Python — it should have been written in a faster language</button>
+        <button class="option" onclick="mcq('q8','B','C')"><span class="opt-l">B</span>The AI tool should have been replaced with a manual process</button>
+        <button class="option" onclick="mcq('q8','C','C')"><span class="opt-l">C</span>Fully automated high-impact actions need human approval — the script should flag for review rather than auto-block</button>
+        <button class="option" onclick="mcq('q8','D','C')"><span class="opt-l">D</span>The payment processor IP should have been hardcoded into the script</button>
+      </div>
+      <div class="feedback" id="q8-fb"></div>
+    </div>
+
+    <div class="card">
+      <span class="q-num">09 / Security &amp; Ethics</span>
+      <div class="scenario-box">
+        <span class="scenario-lbl">Scenario</span>
+        You write a Python tool that automates subdomain enumeration — finding all the subdomains of a target domain. It works brilliantly. A colleague asks for a copy to use in their own work.
+      </div>
+      <div class="q-text">What is the most important question to ask before sharing it?</div>
+      <div class="options" id="q9">
+        <button class="option" onclick="mcq('q9','A','B')"><span class="opt-l">A</span>Will they use the same Python version?</button>
+        <button class="option" onclick="mcq('q9','B','B')"><span class="opt-l">B</span>Do they have explicit written authorisation to use it against their target — offensive tools are dual-use and must only be used in scope</button>
+        <button class="option" onclick="mcq('q9','C','B')"><span class="opt-l">C</span>Will they give you credit if they present the results?</button>
+        <button class="option" onclick="mcq('q9','D','B')"><span class="opt-l">D</span>Is their internet connection fast enough to run it?</button>
+      </div>
+      <div class="feedback" id="q9-fb"></div>
+    </div>
+  </div>
+
+  <button class="submit-all" onclick="submitAll()">Submit &amp; See Final Score</button>
+
+  <div class="final-score" id="finalScore">
+    <span class="big-num" id="finalNum">0%</span>
+    <div class="final-msg" id="finalMsg"></div>
+    <button class="reset-btn" onclick="location.reload()">Reset &amp; Try Again</button>
+  </div>
+
+</div>
+
+<script>
+let pts = 0;
+let maxPts = 13;
+let answered = {};
+
+function upd() {
+  document.getElementById('scoreNum').textContent = pts;
+  let p = Math.round((pts/maxPts)*100);
+  document.getElementById('pFill').style.width = p + '%';
+  document.getElementById('pctLbl').textContent = p + '%';
+}
+
+function mcq(qid, chosen, correct) {
+  if (answered[qid]) return;
+  answered[qid] = true;
+  let btns = document.querySelectorAll('#'+qid+' .option');
+  let letters = ['A','B','C','D'];
+  btns.forEach((b,i) => {
+    b.disabled = true;
+    if (letters[i] === correct) b.classList.add(chosen===correct ? 'correct' : 'reveal-correct');
+    if (letters[i] === chosen && chosen !== correct) b.classList.add('wrong');
+  });
+  let fb = document.getElementById(qid+'-fb');
+  let msgs = {
+    'q1': { c:'✓ Correct. The loop checks each IP. 192.168.1.1 is not in the blocklist so it is ALLOWED. The other two are BLOCKED.', w:'✗ The for loop iterates all three IPs. 192.168.1.1 is not in the blocklist (ALLOWED). 10.0.0.5 and 172.16.0.1 are both in the blocklist (BLOCKED).' },
+    'q2': { c:'✓ Correct. check_ip is a function — defined with def, takes parameters, returns a value. This is the recipe analogy in action.', w:'✗ check_ip is a function — defined with the def keyword, takes inputs (parameters), and returns a result. The recipe analogy.' },
+    'q3': { c:'✓ Correct. count starts at 1, loop runs while count <= 3. It prints Alert #1, Alert #2, Alert #3, then count becomes 4 and the loop ends.', w:'✗ count starts at 1 and increases by 1 each iteration. The loop runs while count <= 3, so it prints Alert #1, #2, #3 then stops.' },
+    'q4': { c:'✓ Correct. try/except catches the connection failure, logs it, and lets the loop continue with the next IP. This is the difference between fragile and robust scripts.', w:'✗ try/except is the answer. It catches errors gracefully, logs the failure, and allows the loop to continue processing the remaining IPs.' },
+    'q5': { c:'✓ Correct. The requests library is being used but never imported. import requests must appear before any use of it. Two lines: pip install, then import.', w:'✗ The script uses requests.get() but never imported the library. import requests must be at the top of the file.' },
+    'q7': { c:'✓ Correct. Pandas loads CSVs in one line, filters and sorts in two more, outputs in one. What takes 2 hours manually takes seconds reproducibly.', w:'✗ Pandas is built for exactly this — loading, filtering, sorting structured data. Five lines of code, runs in seconds, produces the same result every time.' },
+    'q8': { c:'✓ Correct. Automation for high-impact actions needs human-in-the-loop design. The script should enrich and recommend — a human confirms the block. Speed matters but not at the cost of a 45-minute outage.', w:'✗ The flaw was full automation of a high-consequence action. Scripts should surface the finding and recommend — humans approve blocks that could affect production services.' },
+    'q9': { c:'✓ Correct. Security tools are dual-use. Sharing an offensive tool without verifying authorised use could make you complicit in an unauthorised attack. Always verify scope and authorisation.', w:'✗ The critical question is authorisation. Offensive tools are dual-use. Sharing without confirming the recipient has authorisation to use it against their target is irresponsible.' },
+  };
+  let m = msgs[qid];
+  if (chosen === correct) {
+    fb.className='feedback show fb-ok'; fb.textContent=m.c; pts++; upd();
+  } else {
+    fb.className='feedback show fb-no'; fb.textContent=m.w;
+  }
+}
+
+function checkBlanks() {
+  if (answered['blanks']) return;
+  answered['blanks'] = true;
+  document.getElementById('blanksBtn').disabled = true;
+  let ans = [
+    { id:'b1', correct:['variable','variables'] },
+    { id:'b2', correct:['library','libraries','module'] },
+    { id:'b3', correct:['function'] },
+    { id:'b4', correct:['errors','exceptions','error','exception'] },
+  ];
+  let c = 0;
+  ans.forEach(a => {
+    let el = document.getElementById(a.id);
+    let v = el.value.trim().toLowerCase();
+    el.disabled = true;
+    if (a.correct.includes(v)) { el.classList.add('ok'); c++; }
+    else { el.classList.add('no'); el.value += ' → ' + a.correct[0]; }
+  });
+  pts += c; upd();
+  let fb = document.getElementById('blanks-fb');
+  if (c === 4) {
+    fb.className='feedback show fb-ok'; fb.textContent='✓ All four correct. variable, library, function, errors.';
+  } else {
+    fb.className='feedback show fb-no'; fb.textContent='✗ '+c+'/4 correct. Answers: variable, library, function, errors.';
+  }
+}
+
+function submitAll() {
+  let p = Math.round((pts/maxPts)*100);
+  let el = document.getElementById('finalScore');
+  el.classList.add('show');
+  document.getElementById('finalNum').textContent = p + '%';
+  let m = p >= 85 ? '⭐ Excellent — strong Python fundamentals.' :
+          p >= 70 ? '✓ Good — review the sections you found tricky.' :
+          p >= 50 ? '📖 Halfway there — revisit the code reading exercises.' :
+                    '🔁 Keep practising — go back through the Module 6 slides.';
+  document.getElementById('finalMsg').textContent = m;
+  el.scrollIntoView({ behavior:'smooth', block:'center' });
+}
+</script>
+</body>
+</html>
